@@ -2,16 +2,16 @@
 %undefine __cmake_in_source_build
 
 # Release 2023.1
-%global commit          d0b02222f33e1e5e1f521e4e4e1cbfa7fe2cf540
+%global commit          45b735dfddefe26a99b77e5a74e30d860713ac64
 %global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20230116
+%global snapshotdate    20230524
 
 # Glslang revision from packaged version
 %global glslang_version sdk-1.3.239.0
 
 Name:           shaderc
-Version:        2023.1
-Release:        2%{?dist}
+Version:        2023.4
+Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
@@ -127,6 +127,9 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Fri Jul 07 2023 Dave Airlie <airlied@redhat.com> - 2023.4-1
+- Update for 1.3.250.1 sdk release
+
 * Thu Feb 16 2023 Dave Airlie <airlied@redhat.com> - 2023.1-2
 - Update for 1.3.239.0 sdk release
 
