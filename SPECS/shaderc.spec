@@ -1,22 +1,14 @@
-# Force out of source build
-%undefine __cmake_in_source_build
-
-# Release 2023.1
-%global commit          45b735dfddefe26a99b77e5a74e30d860713ac64
-%global shortcommit     %(c=%{commit}; echo ${c:0:7})
-%global snapshotdate    20230524
-
 # Glslang revision from packaged version
-%global glslang_version sdk-1.3.239.0
+%global glslang_version 066853941a3f097b6196f452dde42c0cbf7f98f4
 
 Name:           shaderc
-Version:        2023.4
+Version:        2023.7
 Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
 URL:            https://github.com/google/shaderc
-Source0:        %url/archive/%{commit}/%{name}-%{shortcommit}.tar.gz
+Source:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
 # Patch to unbundle 3rd party code
 Patch1:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
 Patch2:         glslang_linker_flags.patch
@@ -24,10 +16,12 @@ Patch2:         glslang_linker_flags.patch
 BuildRequires:  cmake3
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
-BuildRequires:  python3-devel
-BuildRequires:  glslang-devel
-BuildRequires:  spirv-headers-devel
+BuildRequires:  sed
 BuildRequires:  spirv-tools
+
+BuildRequires:  glslang-devel
+BuildRequires:  python3-devel
+BuildRequires:  spirv-headers-devel
 BuildRequires:  spirv-tools-devel
 
 %description
@@ -71,7 +65,7 @@ A library for compiling shader strings into SPIR-V.
 Static libraries for libshaderc.
 
 %prep
-%autosetup -p1 -n %{name}-%{commit}
+%autosetup -p1
 
 rm -rf third_party
 
@@ -127,6 +121,9 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Wed Jan 17 2024 José Expósito <jexposit@redhat.com> - 2023.7-1
+- Update to 1.3.268.0 SDK
+
 * Fri Jul 07 2023 Dave Airlie <airlied@redhat.com> - 2023.4-1
 - Update for 1.3.250.1 sdk release
 
