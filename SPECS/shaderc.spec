@@ -1,8 +1,8 @@
 # Glslang revision from packaged version
-%global glslang_version 066853941a3f097b6196f452dde42c0cbf7f98f4
+%global glslang_version 436237a4ab2be3225acedc66016ea2aa82946b37
 
 Name:           shaderc
-Version:        2023.7
+Version:        2024.0
 Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
@@ -88,7 +88,7 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %cmake3 -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DCMAKE_SKIP_RPATH=True \
         -DSHADERC_SKIP_TESTS=True \
-        -DPYTHON_EXE=%{__python3} \
+        -DPYTHON_EXECUTABLE=%{python3} \
         -GNinja
 %cmake3_build
 
@@ -121,6 +121,9 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Fri Jul 05 2024 José Expósito <jexposit@redhat.com> - 2024.0-1
+- Update to 1.3.280.0 SDK
+
 * Wed Jan 17 2024 José Expósito <jexposit@redhat.com> - 2023.7-1
 - Update to 1.3.268.0 SDK
 

@@ -15,7 +15,7 @@ diff -up shaderc-24275a11d81a6b33ef345878f8a4ef929c95a116/CMakeLists.txt.orig sh
 -endif()
 -
 -add_custom_target(build-version
--  ${PYTHON_EXECUTABLE}
+-  ${Python_EXECUTABLE}
 -  ${CMAKE_CURRENT_SOURCE_DIR}/utils/update_build_version.py
 -  ${shaderc_SOURCE_DIR} ${spirv-tools_SOURCE_DIR} ${glslang_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}/build-version.inc
 -  COMMENT "Update build-version.inc in the Shaderc build directory (if necessary).")
