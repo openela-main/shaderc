@@ -1,19 +1,19 @@
 # Glslang revision from packaged version
-%global glslang_version 436237a4ab2be3225acedc66016ea2aa82946b37
+%global glslang_version caa54d9779d5605aca4e1a0c0c962a3d8f4aeb31
 
 Name:           shaderc
-Version:        2024.0
+Version:        2024.4
 Release:        1%{?dist}
 Summary:        A collection of tools, libraries, and tests for Vulkan shader compilation
 
 License:        ASL 2.0
 URL:            https://github.com/google/shaderc
-Source:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source:         %{url}/archive/%{glslang_version}.tar.gz
 # Patch to unbundle 3rd party code
 Patch1:         0001-Drop-third-party-code-in-CMakeLists.txt.patch
 Patch2:         glslang_linker_flags.patch
 
-BuildRequires:  cmake3
+BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  ninja-build
 BuildRequires:  sed
@@ -65,9 +65,9 @@ A library for compiling shader strings into SPIR-V.
 Static libraries for libshaderc.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{name}-%{glslang_version}
 
-rm -rf third_party
+rm -r third_party
 
 # Stolen from Gentoo
 # Create build-version.inc since we want to use our packaged
@@ -85,18 +85,18 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %build
 # We disable the tests because they don't work with our unbundling of 3rd party.
 # See https://github.com/google/shaderc/issues/470
-%cmake3 -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-        -DCMAKE_SKIP_RPATH=True \
-        -DSHADERC_SKIP_TESTS=True \
-        -DPYTHON_EXECUTABLE=%{python3} \
-        -GNinja
-%cmake3_build
+%cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+       -DCMAKE_SKIP_RPATH=True \
+       -DSHADERC_SKIP_TESTS=True \
+       -DPYTHON_EXECUTABLE=%{python3} \
+       -GNinja
+%cmake_build
 
 %install
-%cmake3_install
+%cmake_install
 
 %check
-%ctest3
+%ctest
 
 %files -n glslc
 %doc glslc/README.asciidoc
@@ -121,6 +121,9 @@ sed -i 's|SPIRV/GlslangToSpv.h|glslang/SPIRV/GlslangToSpv.h|' libshaderc_util/sr
 %{_libdir}/pkgconfig/shaderc_combined.pc
 
 %changelog
+* Mon Jan 20 2025 José Expósito <jexposit@redhat.com> - 2024.4-1
+- Update to 1.4.304.0 SDK
+
 * Fri Jul 05 2024 José Expósito <jexposit@redhat.com> - 2024.0-1
 - Update to 1.3.280.0 SDK
 
